@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pixel Text</title>
+  </head>
+  <body>
+    <h1>1x</h1>
+    <div id="1x"></div>
+
+    <h1>2x</h1>
+    <div id="2x"></div>
+
+    <h1>4x</h1>
+    <div id="4x"></div>
+
+    <h1>8x</h1>
+    <div id="8x"></div>
+
+    <script>
+      class Letter {
+        constructor(char, grid) {
+          this.char = char;
+          this.grid = grid;
+        }
+      }
+
+      class Font {
+        constructor(letters) {
+          this.letters = letters;
+        }
+
+        render(scale, domTarget) {
+          for (const letter of this.letters) {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.height = scale * letter.grid.length;
+            canvas.width = scale * letter.grid[0].length;
+
+            for (let y = 0; y < letter.grid.length; y++) {
+              for (let x = 0; x < letter.grid[y].length; x++) {
+                if (letter.grid[y][x]) {
+                  ctx.fillRect(x * scale, y * scale, scale, scale);
+                }
+              }
+            }
+
+            canvas.style.marginRight = `${scale}px`;
+            canvas.title = letter.char;
+
+            domTarget.appendChild(canvas);
+          }
+        }
+      }
+
+      function letter(char) {
+        return function (strings, ...expressions) {
+          return new Letter(
+            char,
+            strings
+              .join("")
+              .split("\n")
+              .map((row) =>
+                row
+                  .split("")
+                  .filter((ch) => ["0", "1"].includes(ch))
+                  .map((ch) => ch === "1")
+              )
+              .filter((row) => row.length > 0)
+          );
+        };
+      }
+
+      const myFont = new Font([
+        letter("A")`
+          0110
+          1001
+          1001
+          1111
+          1001
+        `,
+        letter("B")`
+          1110
+          1001
+          1110
+          1001
+          1110
+        `,
+        letter("C")`
+          0110
+          1001
+          1000
+          1001
+          0110
+        `,
+        letter("D")`
+          1110
+          1001
+          1001
+          1001
+          1110
+        `,
+        letter("E")`
+          1111
+          1000
+          1110
+          1000
+          1111
+        `,
+        letter("F")`
+          1111
+          1000
+          1110
+          1000
+          1000
+        `,
+        letter("G")`
+          0111
+          1000
+          1011
+          1001
+          0110
+        `,
+        letter("H")`
+          1001
+          1001
+          1111
+          1001
+          1001
+        `,
+        letter("I")`
+          111
+          010
+          010
+          010
+          111
+        `,
+        letter("J")`
+          0111
+          0001
+          0001
+          1001
+          0110
+        `,
+        letter("K")`
+          1001
+          1010
+          1100
+          1010
+          1001
+        `,
+        letter("L")`
+          1000
+          1000
+          1000
+          1000
+          1111
+        `,
+        letter("M")`
+          10001
+          11011
+          10101
+          10001
+          10001
+        `,
+        letter("N")`
+          10001
+          11001
+          10101
+          10011
+          10001
+        `,
+        letter("O")`
+          0110
+          1001
+          1001
+          1001
+          0110
+        `,
+        letter("P")`
+          1110
+          1001
+          1001
+          1110
+          1000
+        `,
+        letter("Q")`
+          0110
+          1001
+          1001
+          1011
+          0111
+        `,
+        letter("R")`
+          1110
+          1001
+          1001
+          1110
+          1001
+        `,
+        letter("S")`
+          0111
+          1000
+          0110
+          0001
+          1110
+        `,
+        letter("T")`
+          111
+          010
+          010
+          010
+          010
+        `,
+        letter("U")`
+          1001
+          1001
+          1001
+          1001
+          0110
+        `,
+        letter("V")`
+          10001
+          10001
+          10001
+          01010
+          00100
+        `,
+        letter("W")`
+          10001
+          10101
+          10101
+          10101
+          01010
+        `,
+        letter("X")`
+          10001
+          01010
+          00100
+          01010
+          10001
+        `,
+        letter("Y")`
+          1001
+          1001
+          0111
+          0001
+          1110
+        `,
+        letter("Z")`
+          1111
+          0001
+          0110
+          1000
+          1111
+        `,
+        letter(" ")`
+          0000
+          0000
+          0000
+          0000
+          0000
+        `,
+        letter("0")`
+          0110
+          1001
+          1001
+          1001
+          0110
+        `,
+        letter("1")`
+          110
+          010
+          010
+          010
+          111
+        `,
+        letter("2")`
+          0110
+          1001
+          0010
+          0100
+          1111
+        `,
+        letter("3")`
+          1110
+          0001
+          0110
+          0001
+          1110
+        `,
+        letter("4")`
+          1010
+          1010
+          1111
+          0010
+          0010
+        `,
+        letter("5")`
+          1111
+          1000
+          1110
+          0001
+          1110
+        `,
+        letter("6")`
+          0111
+          1000
+          1110
+          1001
+          0110
+        `,
+        letter("7")`
+          1111
+          0001
+          0010
+          0100
+          0100
+        `,
+        letter("8")`
+          0110
+          1001
+          0110
+          1001
+          0110
+        `,
+        letter("9")`
+          0110
+          1001
+          0111
+          0001
+          0110
+        `,
+      ]);
+
+      console.log(myFont);
+
+      myFont.render(1, document.getElementById("1x"));
+      myFont.render(2, document.getElementById("2x"));
+      myFont.render(4, document.getElementById("4x"));
+      myFont.render(8, document.getElementById("8x"));
+    </script>
+  </body>
+</html>
